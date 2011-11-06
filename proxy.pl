@@ -2,14 +2,31 @@
 
 use v5.14;
 
-use Net::Proxy;
+use HTTP::Proxy;
+use HTTP::Proxy::BodyFilter::simple;
+use JSON::XS;
+use Data::Dumper;
 
 sub rewrite {
 	my ($dataref, $sock, $connector) = @_;
 	Net::Proxy::info('here');
+	print Dumper(@_);
 	# rewrite with: http://open.spotify.com/track/5kuzI2Sz53X8P0qztbYzu2
 }
 
+my $proxy = HTTP::Proxy->new( port => 4879 );
+$proxy->logmask('ALL');
+
+#$proxy->push_filter( request => \&rewrite );
+$proxy->push_filter(
+	method => 'CONNECT',
+	request => HTTP::Proxy::BodyFilter::simple->new( sub{
+		my ( $self, $dataref, $message, $protocol, $buffer ) = @_; 
+		print Dumper( $dataref, $message, $protocol, $buffer );
+	})
+);
+
+=wrong
 my $proxy = Net::Proxy->new({
 	in => {
 		type => 'ssl',
@@ -28,7 +45,8 @@ my $proxy = Net::Proxy->new({
 	}
 });
 
-$proxy->set_verbosity(999);
+$proxy->set_verbosity(4);
 $proxy->register();
+=cut
 
-Net::Proxy->mainloop();
+$proxy->start;
