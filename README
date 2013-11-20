@@ -1,3 +1,3 @@
-Music Hack Day @ MIT project that hijacks spotify listening history reporting to rewrite your guilty pleasures with respectable high-brow stuff (or vice versa). Substitute a valid facebook access token in proxy.pl and install the self-signed fake CA cert (to unwrap SSL to facebook), then set your proxy to localhost:4879 and run proxy.pl
+Music Hack Day @ MIT project that hijacks spotify listening history reporting to rewrite your guilty pleasures with respectable high-brow stuff (or vice versa). Substitute a valid facebook access token in proxy.pl and install the self-signed fake CA cert (to unwrap SSL to facebook), then set your proxy to localhost:4879 and run
 
-Absolutely not guaranteed to work
+Absolutely not guaranteed to work. Known to let the connection get stale if left running for long (e.g. during hack day demo...)
